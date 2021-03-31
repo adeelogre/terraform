@@ -1,34 +1,21 @@
 provider "aws" {
-    region = "eu-west-2"
+    access_key = var.access_key
+    secret_key = var.secret_key
+    region = var.region
 }
 
-resource  "aws_vpc" "development-vpc" {
-    cidr_block = "10.0.0.0/16"
+resource  "aws_vpc" "myapp-vpc" {
+    cidr_block = var.vpc_cidr_block
   tags = {
-    Name = "development-vpc"
+    Name = "${var.env_prefix}-vpc"
   }
 }
 
-resource "aws_subnet" "dev-subnet-1" {
+resource "aws_subnet" "myapp-subnet-1" {
     vpc_id = aws_vpc.development-vpc.id
-    cidr_block = "10.0.10.0/24"
-    availability_zone = "eu-west-2a"
+    cidr_block = var.subnet_cidr_block
+    availability_zone = var.avail_zone
   tags = {
-    Name = "dev-subnet-1"
-  }
-}
-
-data "aws_vpc" "existing-dev-vpc" {
-  tags = {
-    Name = "development-vpc"
-  }
-}
-
-resource "aws_subnet" "dev-subnet-2" {
-    vpc_id = data.aws_vpc.existing-dev-vpc.id
-    cidr_block = "10.0.20.0/24"
-    availability_zone = "eu-west-2a"
-  tags = {
-    Name = "dev-subnet-2"
+    Name = "${var.env_prefix}-subnet-1"
   }
 }
