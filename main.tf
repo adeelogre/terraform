@@ -37,3 +37,8 @@ resource "aws_internet_gateway" "myapp-internet-gateway" {
     Name = "${var.env_prefix}-igw"
   }
 }
+
+resource "aws_route_table_association" "rtb-subnet-association" {
+  subnet_id = aws_subnet.myapp-subnet-1.id
+  route_table_id = aws_route_table.myapp-route-table.id
+}
