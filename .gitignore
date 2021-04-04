@@ -3,3 +3,4 @@
 *.tfstate.*
 *.tfvars
 variables.tf
+server-key-pair.ppk
